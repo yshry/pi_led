@@ -1,3 +1,6 @@
+import sys
+sys.path.append('./src')
+
 from led_control import Led
 import RPi.GPIO as GPIO
 import time
