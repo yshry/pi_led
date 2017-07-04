@@ -1,9 +1,9 @@
 import sys
 sys.path.append('./src')
 
-from led_control import Led
+from led import Led
 from tact import Tact
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 
 myled = Led(20)
@@ -19,4 +19,4 @@ while (current - start) < 20.0:
 		myled.off()
 
 	current = time.time()
-GPIO.cleanup()
+#GPIO.cleanup()
