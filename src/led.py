@@ -14,3 +14,11 @@ class Led:
 
 	def off(self):
 		GPIO.output(self.__num, GPIO.LOW)
+
+	def pwm_on(self, hertz, duty):
+		self.__p = GPIO.PWM(self.__num, hertz)
+		self.__p.ChangeDutyCycle(duty)
+		self.__p.start()
+
+	def pwm_off(self):
+		self.__p.stop()

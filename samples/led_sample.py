@@ -1,5 +1,5 @@
 import sys
-sys.path.append('./src')
+sys.path.append('../src')
 
 from led import Led
 #import RPi.GPIO as GPIO
