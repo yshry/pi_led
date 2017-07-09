@@ -14,8 +14,9 @@ class Servo(pwmo.Pwmo):
 		super(Servo, self).__del__()
 
 	def servo_write(self, val):
-		if orientation:
-			duty = int((self.__dmin - self.__dmax)*(val - self.__vmin) / (self.__vmax - self.__vmin) + self.__vmax)
+		if self.__orientation:
+			duty = int((self.__dmin - self.__dmax)*(val - self.__vmin) / (self.__vmax - self.__vmin) + self.__dmax)
 		else:
-			duty = int((self.__dmax - self.__dmin)*(val - self.__vmin) / (self.__vmax - self.__vmin) + self.__vmin)
+			duty = int((self.__dmax - self.__dmin)*(val - self.__vmin) / (self.__vmax - self.__vmin) + self.__dmin)
 		self.pwmWrite(duty)
+		print duty

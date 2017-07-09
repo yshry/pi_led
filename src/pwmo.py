@@ -12,7 +12,7 @@ class Pwmo(object):
 		GPIO.cleanup(self.__num)
 
 	def setclock(self, hertz):
-		val = 18750. /hertz 
+		val = int(18750. /hertz)
 		wiringpi.pwmSetClock(val)
 	
 	def pwmWrite(self, duty):

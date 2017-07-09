@@ -1,16 +1,18 @@
 import sys
 sys.path.append('../src')
 
+from mcp3208 import Mcp3208
 from buzzer import Buzzer
-import time
+from time import sleep
 
-sounds = ['do', 're', 'mi', 'do' , 'mi', 'do', 'mi']
+mymcp = Mcp3208(11, 10, 9, 8)
+mybuzzer = Buzzer(18)
 
-mybuzzer = Buzzer(18,50)
+scale = ['c', 'd', 'e', 'f', 'g', 'a', 'b']
 
-for i in range(len(mybuzzer.doremi)):
-	mybuzzer.sound_on(mybuzzer.doremi.keys()[i], 5)
-	time.sleep(1)
+for i in range(1,3):
+	for tone in scale:
+		mybuzzer.softtonewrite(tone, i)
+		sleep(1)
 
-mybuzzer.off()
-	
+

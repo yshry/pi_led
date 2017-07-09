@@ -1,25 +1,21 @@
 import RPi.GPIO as GPIO
+import pwmo
+import wiringpi
 
-class Buzzer:
+class Buzzer(pwmo.Pwmo):
 	
-	def __init__(self, num, duty=0):
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(num, GPIO.OUT)
+	#scale = {'c':190, 'd':240, 'e':265, 'f':315, 'g':365, 'a':390, 'b':415}
+
+	scale = {'c':261.6, 'd':293.7, 'e':329.6, 'f':349.2, 'g':392, 'a':440, 'b':493.9}
+
+
+
+	def __init__(self, num):
+		super(Buzzer, self).__init__(num)
 		self.__num = num
-		self.doremi = {'do':131, 're':147, 'mi':165, 'fa':175, 'so':196 ,'la':220, 'si':247, 'Do':262}
-		self.__duty=duty
-	
-	def on(self, hertz):
-		self.__p = GPIO.PWM(self.__num, hertz)
-		self.__p.start(self.__duty)
-
-	def change_duty(self, duty):
-		self.__duty = duty
-		self.__p.ChangeDutyCycle(self.__duty)
-
-	def off(self):
-		self.__p.stop()
-
-	def sound_on(self, key, mul):
-		self.__p = GPIO.PWM(self.__num, self.doremi[key]*mul)
-		self.__p.start(self.__duty)
+		wiringpi.softToneCreate(self.__num)
+	def softtonewrite(self, tone, mul):
+		tmptone = int(self.scale[tone] * mul)
+		wiringpi.softToneWrite(self.__num, tmptone)
+	def softtonewrite_hertz(self, tone):
+		wringpi.softToneWrite(self.__num, tone)
