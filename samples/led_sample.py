@@ -15,7 +15,6 @@ t1 = 0.0
 t2 = 0.0
 myled1.off()
 myled2.off()
-print type(start)
 
 while (current - start) < 30:
 	current = time.time()
