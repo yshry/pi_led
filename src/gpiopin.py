@@ -7,8 +7,8 @@ class Gpiopin(object):
 		self.__num = num
 	
 	def __del__(self):
-		self.pwm_off()
-		self.off()
+		#self.pwm_off()
+		#self.off()
 		GPIO.cleanup(self.__num)	
 
 	def on(self):

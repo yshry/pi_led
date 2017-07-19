@@ -8,7 +8,7 @@ import time
 start = time.time()
 current = start
 myled1 = Led(21)
-myled2 = Led(2)
+myled2 = Led(20)
 switch1 = False
 switch2 = False
 t1 = 0.0
@@ -16,7 +16,7 @@ t2 = 0.0
 myled1.off()
 myled2.off()
 
-while (current - start) < 30:
+while (current - start) < 5:
 	current = time.time()
 	if (current - start -t1) > 1.0:
 		t1= t1+1.0
