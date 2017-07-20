@@ -5,6 +5,20 @@
 <title>jQuery TIPS</title>
 </head>
 <body>
+<canvas id ="CC"></canvas>
+<canvas id ="CD"></canvas>
+<canvas id ="CE"></canvas>
+<canvas id ="CF"></canvas>
+<canvas id ="CG"></canvas>
+<canvas id ="CA"></canvas>
+<canvas id ="CB"></canvas>
+<canvas id ="CCS"></canvas>
+
+
+
+
+
+
 <button id="C"></button>
 <button id="D"></button>
 <button id="E"></button>
@@ -18,6 +32,27 @@
 <br/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+
+$(document).ready( function(){
+	var w_width = $(window).width();
+	var w_height = $(window).height();
+
+	//$('#canvas').css("width", w_width);
+	//$('#canvas').css("height", w_height);
+	//$('#canvas').css("color", "Black");
+	var canvas = document.getElementById("CC")
+	$("#bg").css("width", w_width)
+	$("#bg").css("height", w_height/8)
+	$("#bg").css("strokeWidth", 30)
+	var c_width = canvas.width;
+	var c_height = canvas.height;
+	var ctx = canvas.getContext('2d');
+	ctx.beginPath();
+	ctx.strokeRect(0, 0, c_width, c_height)
+
+	$("#result").html(c_width.toString(10)+','+ c_height.toString(10))
+});
+
 $(function(){	
 	$("#C").bind('touchstart', function(){
 		$.get( "beep_front.py", {tone: "c", level: "2"}, function(data){
