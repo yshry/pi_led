@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>jQuery TIPS</title>
+</head>
+<body>
+<h1 id="on-off">off </h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function(){	
+	$("#on-off").bind('touchstart', function(){
+		$.get( "led_front_on.py", function( data ) {
+  			$( "#on-off" ).html( data );
+		})
+	})
+	$("#on-off").bind('touchend', function(){
+		$.get( "led_front_off.py", function( data ) {	
+  			$( "#on-off" ).html( data );
+		})
+	})
+});
+ledSwitch()
+</script>
+</body>
+</html>
