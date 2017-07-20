@@ -15,7 +15,7 @@ class Buzzer(pwmo.Pwmo):
 		self.__num = num
 		wiringpi.softToneCreate(self.__num)
 	def softtonewrite(self, tone, mul):
-		tmptone = int(self.scale[tone] * mul)
+		tmptone = int(self.scale[tone] * (2**(mul-1)))
 		wiringpi.softToneWrite(self.__num, tmptone)
 	def softtonewrite_hertz(self, tone):
 		wiringpi.softToneWrite(self.__num, tone)
