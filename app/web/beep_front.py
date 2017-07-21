@@ -2,6 +2,7 @@
 
 import json
 import cgi
+import sys
 
 data = cgi.FieldStorage()
 
@@ -21,9 +22,9 @@ while not complete:
 		json.dump(json_dict, f)
 		f.close()
 		complete = True
-	except IOError:
-		print 'IOError'
-	finally:
-		pass
+	except:
+		f.close()
+		print (sys.exc_info())
+		complete = False
 
 print json_dict

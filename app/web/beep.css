@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+#wrap {
+  height: 100%;
+  width: 100%;
+}
+
+#canvas {
+  background: White;
+  border-color: Black;
+  font-size: 12px;
+  color: Red;
+  display: block;
+}
+
