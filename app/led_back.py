@@ -6,7 +6,7 @@ import json
 import time
 
 myled = Led(21)
-fname ='./led.json'
+fname ='./web/led.json'
 
 try:
 	while True:
