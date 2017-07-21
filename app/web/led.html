@@ -2,20 +2,20 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>jQuery TIPS</title>
+<title>Led on off</title>
 </head>
 <body>
-<h1 id="on-off">off </h1>
+<h1 id="on-off">Mouse Down Here </h1>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 $(function(){	
-	$("#on-off").bind('touchstart', function(){
-		$.get( "led_front_on.py", function( data ) {
-  			$( "#on-off" ).html( data );
+	$("#on-off").on('touchstart mousedown', function(){
+		$.get( "led_front.py", {status: "on"},function( data ) {
+  			$( "#on-off" ).html(data );
 		})
 	})
-	$("#on-off").bind('touchend', function(){
-		$.get( "led_front_off.py", function( data ) {	
+	$("#on-off").on('touchend mouseup', function(){
+		$.get( "led_front.py", {status: "off"},  function( data ) {	
   			$( "#on-off" ).html( data );
 		})
 	})
