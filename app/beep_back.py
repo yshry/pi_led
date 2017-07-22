@@ -2,10 +2,12 @@ import sys
 sys.path.append('../src')
 
 from buzzer import Buzzer
+from led import Led
 import json
 import time
 
 mybuzzer = Buzzer(12)
+myled = Led(21)
 fname ='./web/beep.json'
 
 try:
@@ -19,12 +21,15 @@ try:
 			if tone != 'na':
 				print json_dict
 				mybuzzer.softtonewrite(tone, level)
+				myled.on()
 			else:
 				mybuzzer.softtonestop()
+				myled.off()
 		except:
 			f.close()
 			print (sys.exc_info())
 			mybuzzer.softtonestop()
-		time.sleep(0.2)
+			myled.off()
+		time.sleep(0.25)
 except KeyboardInterrupt:
 	pass

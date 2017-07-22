@@ -25,6 +25,6 @@ while not complete:
 	except:
 		f.close()
 		print (sys.exc_info())
-		complete = False
+		complete = True
 
 print json_dict

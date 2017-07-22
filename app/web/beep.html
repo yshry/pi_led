@@ -30,6 +30,7 @@ $(function() {
   	clearBoard(unit_h, i, 10)
   }
   
+  var lastindex = 100
   $("#canvas").on( "touchstart mousedown", function(event){
   	ctx = canvas.getContext('2d')
 	var pageY = getPageY(event)
@@ -51,15 +52,23 @@ $(function() {
 		case 7: g_data = {tone: "c", level: "3"}; break;
 		default: g_data = {tone: "na", level: "0"}; break
 	}
+	
+	
 	$.get("beep_front.py", g_data, function(data){
-              ctx.fillText(data, 10, 30)
+		//ctx.fillText(data, 10, 30)
 	});
 
 
-	for (var i=0; i<endnum; i++){
-		clearBoard(unit_h, i, 10)
-	}
+	//for (var i=0; i<endnum; i++){
+	//	clearBoard(unit_h, i, 10)
+	//}
+	
+	//if (lastindex != 100){
+	//	clearBoard(unit_h, lastindex, 10)
+	//}
+
 	pushBoard(unit_h, index,10)
+	lastindex = index
 
   });
 
@@ -68,12 +77,15 @@ $(function() {
         ctx = canvas.getContext('2d')
 
 	$.get("beep_front.py", {tone:"na", level: "0"}, function(data){
-              ctx.fillText(data, 10, 30)
+		//ctx.fillText(data, 10, 30)
   	});
-        for (var i=0; i<endnum; i++){
-                clearBoard(unit_h, i, 10)
-        }
+        //for (var i=0; i<endnum; i++){
+        //        clearBoard(unit_h, i, 10)
+        //}
 
+	if (lastindex != 100){
+		clearBoard(unit_h, lastindex, 10)
+	}
   });
 
   function sizing() {
