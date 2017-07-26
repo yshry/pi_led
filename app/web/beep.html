@@ -20,15 +20,15 @@
 $(function() {
   var canvas = document.getElementById('canvas');
   var container = document.getElementById('wrap');
-  sizing();
 
   var endnum = 8
-  unit_h = Math.floor(canvas.height / endnum)
+  //unit_h = Math.floor(canvas.height / endnum)
 
-  for (var i=0; i<endnum; i++){
- 	fillBoard(unit_h, i)
-  	clearBoard(unit_h, i, 10)
-  }
+  //for (var i=0; i<endnum; i++){
+  //	fillBoard(unit_h, i)
+  //	clearBoard(unit_h, i, 10)
+  //}
+  sizing()
   
   var lastindex = 100
   $("#canvas").on( "touchstart mousedown", function(event){
@@ -54,7 +54,7 @@ $(function() {
 	}
 	
 	
-	$.get("beep_front.py", g_data, function(data){
+	$.get("beep_front2.py", g_data, function(data){
 		//ctx.fillText(data, 10, 30)
 	});
 
@@ -76,7 +76,7 @@ $(function() {
   $("#canvas").on( "touchend mouseup", function(event){
         ctx = canvas.getContext('2d')
 
-	$.get("beep_front.py", {tone:"na", level: "0"}, function(data){
+	$.get("beep_front2.py", {tone:"na", level: "0"}, function(data){
 		//ctx.fillText(data, 10, 30)
   	});
         //for (var i=0; i<endnum; i++){
@@ -91,6 +91,12 @@ $(function() {
   function sizing() {
     canvas.height = container.offsetHeight;
     canvas.width = container.offsetWidth;
+    unit_h = Math.floor(canvas.height / endnum)
+
+    for (var i=0; i<endnum; i++){
+        fillBoard(unit_h, i)
+        clearBoard(unit_h, i, 10)
+    }
   };
 
   window.addEventListener('resize', function() {
