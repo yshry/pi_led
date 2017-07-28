@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,user-scalable=0">
+<link rel="stylesheet" type="text/css" href="beep.css">
+<title>Beep Maker</title>
+</head>
+<body>
+<div id='wrap'>
+<canvas id ="canvas"></canvas>
+</div>
+
+<h1 id="result"></h1>
+
+<br/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+$(function() {
+  var canvas = document.getElementById('canvas');
+  var container = document.getElementById('wrap');
+
+  var endnum = 8
+  //unit_h = Math.floor(canvas.height / endnum)
+
+  //for (var i=0; i<endnum; i++){
+  //	fillBoard(unit_h, i)
+  //	clearBoard(unit_h, i, 10)
+  //}
+  sizing()
+  
+  var lastindex = 100
+  $("#canvas").on( "touchstart mousedown", function(event){
+  	ctx = canvas.getContext('2d')
+	var pageY = getPageY(event)
+	var index = Math.floor(pageY / unit_h) 
+
+	//for (var i=0; i<endnum; i++){
+	//	clearBoard(unit_h, i, 10)
+	//}
+	//pushBoard(unit_h, index,10)
+
+	switch (index){
+		case 0: g_data = {tone: "c", level: "2"}; break;
+		case 1: g_data = {tone: "d", level: "2"}; break;
+		case 2: g_data = {tone: "e", level: "2"}; break;
+		case 3: g_data = {tone: "f", level: "2"}; break;
+		case 4: g_data = {tone: "g", level: "2"}; break;
+		case 5: g_data = {tone: "a", level: "2"}; break;
+		case 6: g_data = {tone: "b", level: "2"}; break;
+		case 7: g_data = {tone: "c", level: "3"}; break;
+		default: g_data = {tone: "na", level: "0"}; break
+	}
+	
+	
+	$.get("beep_front2.py", g_data, function(data){
+		//ctx.fillText(data, 10, 30)
+	});
+
+
+	//for (var i=0; i<endnum; i++){
+	//	clearBoard(unit_h, i, 10)
+	//}
+	
+	//if (lastindex != 100){
+	//	clearBoard(unit_h, lastindex, 10)
+	//}
+
+	pushBoard(unit_h, index,10)
+	lastindex = index
+
+  });
+
+
+  $("#canvas").on( "touchend mouseup", function(event){
+        ctx = canvas.getContext('2d')
+
+	$.get("beep_front2.py", {tone:"na", level: "0"}, function(data){
+		//ctx.fillText(data, 10, 30)
+  	});
+        //for (var i=0; i<endnum; i++){
+        //        clearBoard(unit_h, i, 10)
+        //}
+
+	if (lastindex != 100){
+		clearBoard(unit_h, lastindex, 10)
+	}
+  });
+
+  function sizing() {
+    canvas.height = container.offsetHeight;
+    canvas.width = container.offsetWidth;
+    unit_h = Math.floor(canvas.height / endnum)
+
+    for (var i=0; i<endnum; i++){
+        fillBoard(unit_h, i)
+        clearBoard(unit_h, i, 10)
+    }
+  };
+
+  window.addEventListener('resize', function() {
+    (!window.requestAnimationFrame) ? setTimeout(sizing, 300): window.requestAnimationFrame(sizing);
+  });
+
+  function fillBoard(h, index){
+        ctx = canvas.getContext('2d');
+        hs = h * index
+        ctx.fillRect(0 , hs, canvas.width, h)
+  };
+
+  function clearBoard(h, index, lw){
+        ctx = canvas.getContext('2d');
+        hs = h * index + lw
+        we = canvas.width - (2*lw)
+        he = h - (2*lw)
+        ctx.clearRect(lw, hs, we, he)
+  };
+
+
+  function pushBoard(h, index, lw){
+        ctx = canvas.getContext('2d');
+        hs = h * index + lw
+        we = canvas.width - (2*lw)
+        he = h - (2*lw)
+	ctx.fillStyle = "rgb(200,0,0)";
+        ctx.fillRect(lw, hs, we, he)
+  };
+
+
+ 
+	function getPageX(e) {
+                var pageX = 0;
+                if (e.originalEvent.touches) {
+                        pageX = e.originalEvent.touches[0].pageX;
+                } else {
+                        pageX = e.pageX;
+                }
+                return pageX;
+        };
+
+        function getPageY(e) {
+                var pageY = 0;
+                if (e.originalEvent.touches) {
+                        pageY = e.originalEvent.touches[0].pageY;
+                } else {
+                        pageY = e.pageY;
+                }
+                return pageY;
+        };
+
+})
+	
+//		$.get("beep_front.py", {tone: "c", level: "2"}, function(data){
+//		$("result").html(data)
+//	});
+
+</script>
+</body>
+</html>

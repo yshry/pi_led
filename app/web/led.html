@@ -5,22 +5,24 @@
 <title>Led on off</title>
 </head>
 <body>
-<h1 id="on-off">Mouse Down Here </h1>
+<h1 id="forward"> forward </h1>
+<h1 id="back"> back </h1>
+<h1 id="right"> right </h1>
+<h1 id="left"> left </h1>
+<h1 id="stop"> stop </h1>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 $(function(){	
-	$("#on-off").on('touchstart mousedown', function(){
-		$.get( "led_front.py", {status: "on"},function( data ) {
-  			$( "#on-off" ).html(data );
+	$("#forward").on('touchstart mousedown', function(){
+		$.get( "car_front.py", {dirction, "forward"},function( ) {
 		})
 	})
-	$("#on-off").on('touchend mouseup', function(){
-		$.get( "led_front.py", {status: "off"},  function( data ) {	
-  			$( "#on-off" ).html( data );
+	$("h1").on('touchend mouseup', function(){
+		$.get( "car_front.py", {direction: "neutral"},function() {	
 		})
 	})
 });
-ledSwitch()
 </script>
 </body>
 </html>
