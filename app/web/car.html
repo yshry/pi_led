@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,user-scalable=0">
-<link rel="stylesheet" type="text/css" href="beep.css">
-<title>Beep Maker</title>
+<link rel="stylesheet" type="text/css" href="bg.css">
+<title>Car Controller</title>
 </head>
 <body>
 <div id='wrap'>
@@ -21,114 +21,88 @@ $(function() {
   var canvas = document.getElementById('canvas');
   var container = document.getElementById('wrap');
 
-  var endnum = 8
-  //unit_h = Math.floor(canvas.height / endnum)
-
-  //for (var i=0; i<endnum; i++){
-  //	fillBoard(unit_h, i)
-  //	clearBoard(unit_h, i, 10)
-  //}
-  sizing()
+  var lx = [0,0,0,0];
+  var ly = [0,0,0,0];
+  var sq_w = 0;
+  var sq_h = 0;
+  sizing();
   
-  var lastindex = 100
   $("#canvas").on( "touchstart mousedown", function(event){
-  	ctx = canvas.getContext('2d')
-	var pageY = getPageY(event)
-	var index = Math.floor(pageY / unit_h) 
-
-	//for (var i=0; i<endnum; i++){
-	//	clearBoard(unit_h, i, 10)
-	//}
-	//pushBoard(unit_h, index,10)
-
-	switch (index){
-		case 0: g_data = {tone: "c", level: "2"}; break;
-		case 1: g_data = {tone: "d", level: "2"}; break;
-		case 2: g_data = {tone: "e", level: "2"}; break;
-		case 3: g_data = {tone: "f", level: "2"}; break;
-		case 4: g_data = {tone: "g", level: "2"}; break;
-		case 5: g_data = {tone: "a", level: "2"}; break;
-		case 6: g_data = {tone: "b", level: "2"}; break;
-		case 7: g_data = {tone: "c", level: "3"}; break;
-		default: g_data = {tone: "na", level: "0"}; break
-	}
+  	ctx = canvas.getContext('2d');
+	var pageX = getPageX(event);
+        var pageY = getPageY(event);
 	
+	for (var i=0; i<4; i++){
+		if (pageX>lx[i] && pageX<(lx[i] + sq_w) && pageY>ly[i] && pageY < (ly[i]+sq_w)){
+			draw_redbox(lx[i], ly[i], sq_w, sq_h);
+			if (i==0) g_data ={direction:"forward"}
+			else if (i==1) g_data = {direction:"left"}
+			else if (i==2) g_data = {direction:"right"}
+			else if (i==3) g_data = {direction:"backward"}
+			$.get("car_front.py", g_data, function(data){});
+			break;
+			}
+		}
 	
-	$.get("beep_front2.py", g_data, function(data){
-		//ctx.fillText(data, 10, 30)
-	});
-
-
-	//for (var i=0; i<endnum; i++){
-	//	clearBoard(unit_h, i, 10)
-	//}
-	
-	//if (lastindex != 100){
-	//	clearBoard(unit_h, lastindex, 10)
-	//}
-
-	pushBoard(unit_h, index,10)
-	lastindex = index
-
   });
 
 
   $("#canvas").on( "touchend mouseup", function(event){
-        ctx = canvas.getContext('2d')
-
-	$.get("beep_front2.py", {tone:"na", level: "0"}, function(data){
-		//ctx.fillText(data, 10, 30)
+        ctx = canvas.getContext('2d');
+	draw_blackbox_all()
+	$.get("car_front.py", {direction:"stop"}, function(data){
   	});
-        //for (var i=0; i<endnum; i++){
-        //        clearBoard(unit_h, i, 10)
-        //}
-
-	if (lastindex != 100){
-		clearBoard(unit_h, lastindex, 10)
-	}
   });
 
   function sizing() {
     canvas.height = container.offsetHeight;
     canvas.width = container.offsetWidth;
-    unit_h = Math.floor(canvas.height / endnum)
 
-    for (var i=0; i<endnum; i++){
-        fillBoard(unit_h, i)
-        clearBoard(unit_h, i, 10)
-    }
+    //var lx = [0,0,0,0];
+    //var ly = [0,0,0,0];
+    //var sq_h = 0
+    //var sq_w = 0
+
+    sq_h = Math.floor(canvas.height / 4);
+    sq_w = Math.floor(canvas.width / 4);
+    
+    lx[0] = Math.floor(canvas.width/8 * 3)
+    ly[0] = Math.floor(canvas.height/8)
+    lx[1] = Math.floor(canvas.width/8)
+    ly[1] = Math.floor(canvas.height/8 * 3)
+    lx[2] = Math.floor(canvas.width/8 * 5)
+    ly[2] = ly[1]
+    lx[3] = lx[0]
+    ly[3] = Math.floor(canvas.height/8 * 5)
+
+    draw_blackbox_all();
+    //ctx = canvas.getContext('2d');
+    //for (var i=0; i<4; i++){
+    //    ctx.fillRect(lx[i], ly[i], sq_w, sq_h)
+    //}
   };
 
   window.addEventListener('resize', function() {
     (!window.requestAnimationFrame) ? setTimeout(sizing, 300): window.requestAnimationFrame(sizing);
   });
 
-  function fillBoard(h, index){
-        ctx = canvas.getContext('2d');
-        hs = h * index
-        ctx.fillRect(0 , hs, canvas.width, h)
-  };
 
-  function clearBoard(h, index, lw){
+  function draw_redbox(x,y,w,h){
         ctx = canvas.getContext('2d');
-        hs = h * index + lw
-        we = canvas.width - (2*lw)
-        he = h - (2*lw)
-        ctx.clearRect(lw, hs, we, he)
-  };
-
-
-  function pushBoard(h, index, lw){
-        ctx = canvas.getContext('2d');
-        hs = h * index + lw
-        we = canvas.width - (2*lw)
-        he = h - (2*lw)
 	ctx.fillStyle = "rgb(200,0,0)";
-        ctx.fillRect(lw, hs, we, he)
+        ctx.fillRect(x, y, w, h)
   };
 
+  function draw_blackbox_all(){
+    ctx = canvas.getContext('2d');
+    ctx.fillStyle="rgb(0,0,0)"
+    for (var i=0; i<4; i++){
+        ctx.fillRect(lx[i], ly[i], sq_w, sq_h)
+    }
+  };
+  
 
- 
+
 	function getPageX(e) {
                 var pageX = 0;
                 if (e.originalEvent.touches) {
@@ -151,10 +125,6 @@ $(function() {
 
 })
 	
-//		$.get("beep_front.py", {tone: "c", level: "2"}, function(data){
-//		$("result").html(data)
-//	});
-
 </script>
 </body>
 </html>
