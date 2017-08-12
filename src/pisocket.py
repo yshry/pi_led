@@ -48,4 +48,6 @@ def sendjson(host, port, json_dict, timeout = 0.1):
 	#	import traceback
 	#	print(repr(traceback.extract_stack()))
 	#	return -1
+	if response =="":
+		return -1
 	return 1

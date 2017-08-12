@@ -18,11 +18,12 @@ for i in range(0,4):
 
 enforce = False
 
-dist_th = DistanceSensorThreadAuto(0, 1000, 500, myport)
+dist_th = DistanceSensorThreadAuto(0, 1100, 800, myport)
 dist_th.start()
 
 try:
 	while True:
+		print "waiting for connection"
 		json_dict = mysocket.wait_and_accept()
 		json_keys = json_dict.keys
 		
@@ -49,24 +50,28 @@ try:
 			for i in range(0,4):
 				#mygpio[i].pwm_change_duty(70)
 				mygpio[i].pwm_change_duty(0)
-		elif direction =='forward':
+		#elif direction =='forward':
+		elif direction == 'backward':
 			#print 'forward'
 			for i in (0,2):
                         	mygpio[i].pwm_change_duty(0)
                         	mygpio[i+1].pwm_change_duty(70)
-                elif direction =='backward':
+                #elif direction =='backward':
+		elif direction == 'forward':
                         #print 'backward'
                         for i in (0,2):
                                 mygpio[i].pwm_change_duty(70)
                                 mygpio[i+1].pwm_change_duty(0)
-                elif direction =='right':
+                #elif direction =='right':
+		elif direction == 'left':
                         #print 'left'
                         mygpio[0].pwm_change_duty(0)
                         mygpio[1].pwm_change_duty(70)
                         mygpio[2].pwm_change_duty(30)
                         #mygpio[2].pwm_change_duty(0)
 			mygpio[3].pwm_change_duty(0)
-                elif direction =='left':
+                elif direction == 'right':
+		#elif direction =='left':
                         #print 'right'
                         mygpio[0].pwm_change_duty(30)
                         mygpio[1].pwm_change_duty(0)

@@ -33,12 +33,14 @@ class DistanceSensorThreadAuto(threading.Thread):
 				value = self.__getvalue()
 				print value
 				if value > self.__aon and self.__previous_forward:
-					json_dict = {'direction': 'right', 'enforce': 'cancel'}
+					print "turn left"
+					json_dict = {'direction': 'left', 'enforce': 'cancel'}
 					complete = sendjson('localhost', self.__send_port, json_dict)
 					#self.__enforce = True
 					self.__previous_forward = False
 					print "send order to turn right"
 				elif value < self.__aoff and not self.__previous_forward:
+					print "move straight"
 					json_dict = {'direction': 'forward', 'enforce': 'cancel'}
 					complete = sendjson('localhost', self.__send_port, json_dict)
 					#self.__enforce = False
